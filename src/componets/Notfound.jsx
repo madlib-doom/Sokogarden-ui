@@ -4,18 +4,14 @@ import "./stylings/notfound.css"
 
 const Notfound = () => {
   return (
-    <div className='all'>
-        <div className="notfoundcontainer">
-            <div className='glitch' data-text="404">404</div>
-            <div className='message'>Sorry resource not found. Click 
-                <Link to={"/"}>Go home</Link>to take you back to Home.
-
-            </div>
-        </div>
-
-       
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="text-center">
+        <h1 className="error-code display-1 fw-bold">404</h1>
+        <p className="lead">Oops! The page you're looking for doesn't exist.</p>
+        <Link to="/" className="btn btn-primary mt-3">Go Back Home</Link>
+      </div>
     </div>
-  )
+  );
 }
 
 export default Notfound
