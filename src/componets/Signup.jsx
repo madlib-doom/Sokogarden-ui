@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 const Signup = () => {
@@ -6,12 +7,59 @@ const Signup = () => {
   const[email,setEmail]=useState('');
   const[phone,setPhone]=useState("");
   const[password,setPassword]=useState('');
+
+  // Add three addditional hookis to manage state of applicxatiom
+
+  const[loading,setLoading]=useState("")
+  const[success,setSuccess]=useState("")
+  const[error,setError]=useState("");
+  // Create a function that handle sthe submit action
+  const submit=async(e)=>{
+    // Prevent the site from reloading when person clicks on the sigup button
+    e.preventDefault();
+    // update the loading hook with new message that the user shal see ont he browser
+    setLoading("Please wait as we upload your details")
+
+    try{
+      // create a form data object that will hold all the data from the hooks
+const data=new FormData();
+// add the different details into the new object created
+data.append("username",username)
+data.append("email",email)
+data.append("phone",phone)
+data.append("password",password)
+// post your data to the backend api
+const response = await axios.post('https://aarondev.pythonanywhere.com/api/signup',data)
+// set back the loading hook to empty
+setLoading("")
+
+// By presumption we assume the registration process went on well therefore update the success hook with a new mesage
+setSuccess(response.data.message)
+// clear the hooks for them to take in new data
+setUsername("")
+setEmail("")
+setPhone("")
+setPassword('')
+    }
+    catch(error){
+      // set loading hook back to default
+      setLoading('')
+
+      // Incase there was an error encounterd during the registration process update the error hook
+      // with a messgae 
+      setError("Sorry,Registration not succesful ,an error occured...")
+
+    }
+  }
   return (
     <div className='row justify-content-center mt-4'> 
      <div className="col-md-6 card shadow p-4">
      <h1> Signup Page</h1><hr />
+     {loading}
+    {success}
+    {error}
 
-     <form >
+     <form onSubmit={submit} >
       <input type="text" 
       className='form-control' 
       placeholder='Enter the username here'
