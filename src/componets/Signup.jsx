@@ -116,7 +116,36 @@ const Signup = () => {
             />
             <br />
 
-            <button type="submit" className="btn btn-success w-100">Signup</button>
+            <button type="submit" className="cta w-100">
+  <span className="span">Submit</span>
+  <span className="second">
+    <svg
+      width="50px"
+      height="20px"
+      viewBox="0 0 66 43"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none">
+        <path
+          className="one"
+          d="M40.1543933,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+        <path
+          className="two"
+          d="M20.1543933,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+        <path
+          className="three"
+          d="M0.154393339,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+      </g>
+    </svg>
+  </span>
+</button>
+
           </form>
         </div>
       </div>
