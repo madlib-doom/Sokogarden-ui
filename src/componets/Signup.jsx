@@ -1,106 +1,127 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import './stylings/Signup.css'; // Make sure this contains both the loader and hero CSS
+
+const Loader = () => {
+  return (
+    <div className="section-center">
+      <div className="section-path">
+        <div className="globe">
+          <div className="wrapper">
+            {[...Array(16)].map((_, i) => (
+              <span key={i}></span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Signup = () => {
-  // Hooks to capture the different state of our application
-  const[username,setUsername]=useState("");
-  const[email,setEmail]=useState('');
-  const[phone,setPhone]=useState("");
-  const[password,setPassword]=useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
 
-  // Add three addditional hookis to manage state of applicxatiom
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
-  const[loading,setLoading]=useState("")
-  const[success,setSuccess]=useState("")
-  const[error,setError]=useState("");
-  // Create a function that handle sthe submit action
-  const submit=async(e)=>{
-    // Prevent the site from reloading when person clicks on the sigup button
+  const submit = async (e) => {
     e.preventDefault();
-    // update the loading hook with new message that the user shal see ont he browser
-    setLoading("Please wait as we upload your details")
+    setLoading(true);
+    setSuccess('');
+    setError('');
 
-    try{
-      // create a form data object that will hold all the data from the hooks
-const data=new FormData();
-// add the different details into the new object created
-data.append("username",username)
-data.append("email",email)
-data.append("phone",phone)
-data.append("password",password)
-// post your data to the backend api
-const response = await axios.post('https://aarondev.pythonanywhere.com/api/signup',data)
-// set back the loading hook to empty
-setLoading("")
+    const data = new FormData();
+    data.append('username', username);
+    data.append('email', email);
+    data.append('phone', phone);
+    data.append('password', password);
 
-// By presumption we assume the registration process went on well therefore update the success hook with a new mesage
-setSuccess(response.data.message)
-// clear the hooks for them to take in new data
-setUsername("")
-setEmail("")
-setPhone("")
-setPassword('')
+    try {
+      const response = await axios.post('https://aarondev.pythonanywhere.com/api/signup', data);
+      setLoading(false);
+      setSuccess(response.data.message);
+
+      setUsername('');
+      setEmail('');
+      setPhone('');
+      setPassword('');
+    } catch (error) {
+      setLoading(false);
+      setError('Sorry, registration was not successful. An error occurred...');
     }
-    catch(error){
-      // set loading hook back to default
-      setLoading('')
+  };
 
-      // Incase there was an error encounterd during the registration process update the error hook
-      // with a messgae 
-      setError("Sorry,Registration not succesful ,an error occured...")
-
-    }
-  }
   return (
-    <div className='row justify-content-center mt-4'> 
-     <div className="col-md-6 card shadow p-4">
-     <h1> Signup Page</h1><hr />
-     {loading}
-    {success}
-    {error}
+    <>
+      {/* HERO SECTION */}
+      <section className="hero-section text-white text-center d-flex align-items-center justify-content-center">
+        <div className="container">
+          <h1 className="display-4 fw-bold">Create Your Account</h1>
+          <p className="lead">Join us and start your journey today. Signing up is quick and easy!</p>
+        </div>
+      </section>
 
-     <form onSubmit={submit} >
-      <input type="text" 
-      className='form-control' 
-      placeholder='Enter the username here'
-      value={username}
-      onChange={(e)=>setUsername(e.target.value)}
-      required/><br />
-      {/* {username} */}
+      {/* SIGNUP FORM SECTION */}
+      <div className="row justify-content-center mt-4">
+        {loading && <Loader />}
+        <div className="col-md-6 card shadow p-4">
+          <h2 className="text-center">Signup Form</h2>
+          <hr />
 
-      <input type="email" 
-      className='form-control'
-      placeholder='Enter email adress here' required 
-      value={email}
-      onChange={(e)=>setEmail(e.target.value)}/>
-      
-      <br />
-      {/* {email} */}
-      <input type="number"
-      className='form-control'
-      placeholder='Enter your phone number here' 
-      value={phone}
-      onChange={(e)=>setPhone(e.target.value)}
-      required/> <br />
-      {/* {phone} */}
+          {success && <div className="alert alert-success">{success}</div>}
+          {error && <div className="alert alert-danger">{error}</div>}
 
-      
-      <input type="password"
-      className='form-control'
-      placeholder='Enter your password here' 
-      value={password}
-      onChange={(e)=>setPassword(e.target.value)}
-      required 
-      /> <br />
-      {/* {password} */}
+          <form onSubmit={submit}>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter the username here"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <br />
 
-      <button type='submit' className='btn btn-success'>Signup</button>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email address here"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <br />
 
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter your phone number here"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <br />
 
-     </form>
-     </div>
-    </div>
-  )
-}
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Enter your password here"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <br />
 
-export default Signup
+            <button type="submit" className="btn btn-success w-100">Signup</button>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Signup;
