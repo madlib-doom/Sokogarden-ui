@@ -34,6 +34,7 @@ const Addproduct = () => {
     e.preventDefault();
     setLoading(true)
     
+    
 
     const data=new FormData();
     data.append('product_name',name)
