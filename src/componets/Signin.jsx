@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import ("./stylings/Signup.css")
 const Loader = () => {
@@ -22,6 +23,10 @@ const Signin = () => {
   // Declare hooks here
   const[email,setEmail]=useState("")
   const[password,setPassword]=useState('')
+
+  // import useNavigate which will help you to move to another page/component when someone succesfully 
+  // enter the correct det5ails 
+  const navigate=useNavigate();
 
   
 
@@ -51,7 +56,9 @@ const Signin = () => {
       console.log(response.data)
 
       if (response.data.message==="Login succesful"){
-        setSuccess(response.data.message)
+        // setSuccess(response.data.message)
+        localStorage.setItem("user",JSON.stringify(response.data.user))
+        navigate("/")
       }
       else{
         setError(response.data.message)
@@ -101,9 +108,36 @@ const Signin = () => {
             />
             <br />
   
-            <button type="submit" className="btn btn-outline-success">
-              Submit
-            </button>
+            
+            <button type="submit" className="cta w-100">
+  <span className="span">Submit</span>
+  <span className="second">
+    <svg
+      width="50px"
+      height="20px"
+      viewBox="0 0 66 43"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none">
+        <path
+          className="one"
+          d="M40.1543933,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+        <path
+          className="two"
+          d="M20.1543933,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+        <path
+          className="three"
+          d="M0.154393339,3.89485454 ..."
+          fill="#FFFFFF"
+        ></path>
+      </g>
+    </svg>
+  </span>
+</button>
           </form>
         </div>
       </div>
