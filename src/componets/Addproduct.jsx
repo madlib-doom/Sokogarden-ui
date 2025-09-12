@@ -96,7 +96,7 @@ const Addproduct = () => {
 <label >Product photo</label> <br />
   <input type="file"
   className='form-control' 
-accept='images/'
+accept='images/*'
   onChange={(e)=>setPhoto(e.target.files[0])}/> <br /><br />
   
 
